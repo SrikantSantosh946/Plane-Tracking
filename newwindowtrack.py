@@ -39,27 +39,14 @@ OPENCV_OBJECT_TRACKERS = {
     # grab the appropriate object tracker using our dictionary of
     # OpenCV object tracker objects
 tracker = OPENCV_OBJECT_TRACKERS[args["tracker"]]()
-
 # open outputfile for writing
 #f = open(args["outputfile"],"w+")
-
 # initialize the bounding box coordinates of the object we are going
 # to track
 initBB = None
-
-# if a video path was not supplied, grab the reference to the web cam
-if not args.get("video", False):
-    print("[INFO] starting video stream...")
-    vs = VideoStream(src=0).start()
-    time.sleep(1.0)
-
-# otherwise, grab a reference to the video file
-else:
-    vs = cv2.VideoCapture(args["video"])
-
+vs = cv2.VideoCapture(args["video"])
 # initialize the FPS throughput estimator
 fps = None
-
 # loop over frames from the video stream
 while True:
     # grab the current frame, then handle if we are using a
@@ -70,7 +57,6 @@ while True:
     # check to see if we have reached the end of the stream
     if frame is None:
         break
-
     # resize the frame (so we can process it faster) and grab the
     # frame dimensionss
 #   frame = imutils.resize(frame, width=1000)
@@ -132,13 +118,7 @@ while True:
     elif key == ord("q"):
         break
 
-#f.close()
 
-# if we are using a webcam, release the pointer
-if not args.get("video", False):
-    vs.stop()
-
-# otherwise, release the file pointer
 else:
     vs.release()
 
